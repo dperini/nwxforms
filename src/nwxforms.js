@@ -56,7 +56,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 // @global - required browsing context
 //
 
-function html5forms(global) {
+function nwxforms(global) {
 
 	var cache = { },
 
