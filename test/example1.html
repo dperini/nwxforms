@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="author" content="Diego Perini">
+
+<title>HTML4 Forms enhancer (using new HTML5 types and attributes)</title>
+
+<script type="text/javascript" src="../src/nwxforms.js"></script>
+<!--
+  can be started earlier using "DOMContentLoaded" if needed,
+  this is just an example, you can use the more common form:
+
+    window.onload = function() { html5forms(this); }
+
+  to achieve the same objective or just call it when needed
+-->
+<script type="text/javascript">window.onload = Function('html5forms(this)');</script>
+
+</head>
+<body>
+
+<h1>Creating cross-browser enhanced HTML5 forms</h1>
+
+<hr>
+
+<h2>Example 1 (using the type attribute)</h2>
+
+<p>The <code>required</code> attribute only enforce presence of control
+values and prevent form submission in case the control value is absent.</p>
+
+<p>This example make use of the <code>type</code> attribute to validate
+the control values in a default way while it uses the <code>required</code>
+attribute to avoid submitting the form when the control value is empty.</p>
+
+<form action="" onsubmit="this.action='?'+(new Date).getTime()" method="post">
+
+    <div><label for="name">name</label></div>
+    <div><input name="name" id="name" type="text" placeholder="Enter your name" autofocus="" required="" title="Your name"> *</div>
+
+    <div><label for="password">password</label></div>
+    <div><input name="password" id="password" type="password" placeholder="Enter secret code" maxlength="16" required="" title="Your secret code, maximum 16 characters"> *</div>
+
+    <div><label for="email">email</label></div>
+    <div><input name="email" id="email" type="email" placeholder="name@example.com" required="" title="Your e-mail address (ex: name@example.com)"> *</div>
+
+    <div><label for="gender">gender</label></div>
+    <div><select name="gender" id="gender" required="" title="Your gender"><option value="">Select one</option><option>Male</option><option>Female</option></select> *</div>
+
+    <div><label for="age">age</label></div>
+    <div><input name="age" id="age" type="number" placeholder="Enter your age" maxlength="2" data-regexp="[0-9]" required="" title="Your age, only 2 numeric digits 0-9 will be accepted"> *</div>
+
+    <div><label for="date">birth date</label></div>
+    <div><input name="date" id="date" type="date" placeholder="Enter your birth date" maxlength="10" required="" title="Your birth date, either in gg/mm/aaaa or aaaa/mm/gg format"> *</div>
+
+    <div><label for="url">url</label></div>
+    <div><input name="url" id="url" type="url" placeholder="http://exampleseed.com" required="" title="Web address, dotted host/domain name preceeded by http:// or https://"> *</div>
+
+    <div><label for="comment">comment</label></div>
+    <div><textarea name="comment" id="comment" placeholder="Enter your comments" maxlength="32" required="" title="Send us your comments"></textarea> *</div>
+
+    <div><label for="interests">interests</label></div>
+    <div><input name="interests" id="interests" type="text" placeholder="List your interests" title="Tell us more about your interests"></div>
+
+    <p><button type="submit" value="submit" title="Submit the form">submit </button></p>
+
+</form>
+
+<h3>Form functionality notes</h3>
+<ul>
+    <li>an <i>asterisk</i> at the end indicates mandatory fields</li>
+    <li>the <code>age</code> field only accepts numeric keystrokes</li>
+    <li>the <code>placeholder</code> attribute is set for all fields</li>
+    <li>all fields but last are mandatory (<code>required</code>)</li>
+</ul>
+
+</body>
+</html>
