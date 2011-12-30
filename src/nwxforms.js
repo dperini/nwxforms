@@ -82,21 +82,21 @@ function nwxforms(global) {
 		'(?:\\.[a-zA-Z]{2,6})',
 
 	// date RE string
-	// gg mm 20aa - 20aa mm gg - ggmm20aa - 20aammgg
+	// gg mm aaaa - aaaa mm gg - ggmmaaaa - aaaammgg
 	dateRE =
-		'\\d{1,2}[-.\\/ ]\\d{1,2}[-.\\/ ]20\\d{2}|' +
-		'20\\d{2}[-.\\/ ]\\d{1,2}[-.\\/ ]\\d{1,2}|' +
-		'\\d{2}\\d{2}20\\d{2}|20\\d{2}\\d{2}\\d{2}',
+		'\\d{1,2}[-.\\/ ]\\d{1,2}[-.\\/ ]\\d{2,4}|' +
+		'\\d{2,4}[-.\\/ ]\\d{1,2}[-.\\/ ]\\d{1,2}|' +
+		'\\d{2}\\d{2}\\d{2,4}|\\d{2,4}\\d{2}\\d{2}',
 
 	// month RE string
-	// mm 20aa - 20aa mm - mm20aa - 20aamm
+	// mm aaaa - aaaa mm - mmaaaa - aaaamm
 	monthRE =
-		'\\d{1,2}[-.\\/ ]20\\d{2}|' +
-		'20\\d{2}[-.\\/ ]\\d{1,2}|' +
-		'\\d{2}20\\d{2}|20\\d{2}\\d{2}',
+		'\\d{1,2}[-.\\/ ]\\d{2,4}|' +
+		'\\d{2,4}[-.\\/ ]\\d{1,2}|' +
+		'\\d{2}\\d{2,4}|\\d{2,4}\\d{2}',
 
 	// week RE string
-	// ww 20aa - 20aa ww - ww20aa - 20aaww
+	// ww aaaa - aaaa ww - wwaaaa - aaaaww
 	weekRE = monthRE,
 
 	// time RE string
