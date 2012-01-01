@@ -82,21 +82,28 @@ function nwxforms(global) {
 		'(?:\\.[a-zA-Z]{2,6})',
 
 	// date RE string
-	// gg mm aaaa - aaaa mm gg - ggmmaaaa - aaaammgg
 	dateRE =
+		// gg mm [aa]aa
 		'\\d{1,2}[-.\\/ ]\\d{1,2}[-.\\/ ](?:\\d{2}|\\d{4})|' +
+		// [aa]aa mm gg
 		'(?:\\d{2}|\\d{4})[-.\\/ ]\\d{1,2}[-.\\/ ]\\d{1,2}|' +
-		'\\d{2}\\d{2}(?:\\d{2}|\\d{4})|(?:\\d{2}|\\d{4})\\d{2}\\d{2}',
+		// ggmm[aa]aa
+		'\\d{2}\\d{2}(?:\\d{2}|\\d{4})|' +
+		// [aa]aammgg
+		'(?:\\d{2}|\\d{4})\\d{2}\\d{2}',
 
 	// month RE string
-	// mm aaaa - aaaa mm - mmaaaa - aaaamm
 	monthRE =
+		// mm [aa]aa
 		'\\d{1,2}[-.\\/ ](?:\\d{2}|\\d{4})|' +
+		// [aa]aa mm
 		'(?:\\d{2}|\\d{4})[-.\\/ ]\\d{1,2}|' +
-		'\\d{2}(?:\\d{2}|\\d{4})|(?:\\d{2}|\\d{4})\\d{2}',
+		// mm[aa]aa
+		'\\d{2}(?:\\d{2}|\\d{4})|' +
+		// [aa]aamm
+		'(?:\\d{2}|\\d{4})\\d{2}',
 
 	// week RE string
-	// ww aaaa - aaaa ww - wwaaaa - aaaaww
 	weekRE = monthRE,
 
 	// time RE string
@@ -240,10 +247,10 @@ function nwxforms(global) {
 		} else {
 			if (event[target].extype) {
 				addClass(event[target].extype, 'focused');
-                event[target].extype[rem](prefix + focus, passwordFocus, 0);
+				event[target].extype[rem](prefix + focus, passwordFocus, 0);
 				event[target].replaceNode(event[target].extype);
 				setfocus(event[target].extype);
-                event[target].extype[add](prefix + focus, passwordFocus, 0);
+				event[target].extype[add](prefix + focus, passwordFocus, 0);
 			} else {
 				addClass(event[target], 'focused');
 			}
