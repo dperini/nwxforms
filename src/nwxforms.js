@@ -75,11 +75,19 @@ function nwxforms(global) {
 	// cache for test elements references
 	tagStore = { },
 
+	// handled protocols RE string
+	protoRE = '(?:(?:ftp|http|https)://)',
+
 	// host.domain.tld RE string
 	hostRE =
-		'(?:[a-zA-Z0-9]*[-a-zA-Z0-9]*[a-zA-Z0-9])' +
-		'(?:\\.[a-zA-Z0-9]*[-a-zA-Z0-9]*[a-zA-Z0-9])*' +
-		'(?:\\.[a-zA-Z]{2,6})',
+		'(?:[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]\\.)+' +
+		'[a-zA-Z]{2,6}',
+
+	// mail address RE string
+	// RFC2822 no double quotes
+	mailRE =
+		'(?:[-+∼=!#$%&\x27*/?\\^`{|}\\w]+)' +
+		'(?:\\.[-+∼=!#$%&\x27*/?\\^`{|}\\w]+)*',
 
 	// date RE string
 	dateRE =
@@ -497,13 +505,13 @@ function nwxforms(global) {
 									break;
 								case 'email':
 									addClass(element, 'email');
-									// simple: '^(?:\\S+@\\S+\.\\S+)$'
-									element.setAttribute('pattern', '^(?:' + '(?:\\S+@)' + hostRE + ')$');
+									// RFC2822 email address validation
+									element.setAttribute('pattern', '^(?:' + mailRE + '@' + hostRE + ')$');
 									break;
 								case 'url':
 									addClass(element, 'url');
-									// simple: '^(?:(?:\\w+://)?.+)$'
-									element.setAttribute('pattern', '^(?:' + '(?:https?://)' + hostRE + ')$');
+									// URL validation (protocol is optional)
+									element.setAttribute('pattern', '^(?:' + protoRE + '?' + hostRE + ')$');
 									break;
 								default:
 									break;
