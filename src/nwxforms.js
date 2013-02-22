@@ -122,6 +122,16 @@ function nwxforms(global) {
 	// format: -.01e2
 	numRE = '(?:\\+|-)?(?:\\d+)(?:.\\d+)?(?:e-?\\d+)?',
 
+	// color RE string
+	// format: #hhh, #hhhhhh, name
+	colorRE = '#[0-9a-fA-F]{3,3}|#[0-9a-fA-F]{6,6}|[a-zA-Z]+-?[a-zA-Z]+',
+
+	// range RE string
+	rangeRE = numRE,
+
+	// search RE string
+	searchRE = '[^\r\n\f]{0,}',
+
 	// check native support for attribute
 	// on specific element types (tagName)
 	// don't recreate elements, cache them
