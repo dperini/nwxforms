@@ -130,7 +130,7 @@ function nwxforms(global) {
 	rangeRE = numRE,
 
 	// search RE string
-	searchRE = '[^\r\n\f]{0,}',
+	searchRE = '[^\\r\\n\\f]{0,}',
 
 	// check native support for attribute
 	// on specific element types (tagName)
