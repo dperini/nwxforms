@@ -404,7 +404,7 @@ function nwxforms(global) {
 
 		var i, j, k, autofocus,
 			element, field, invalid,
-			method, node, pattern, replace;
+			method, name, node, pattern, replace;
 
 		// handle the submit event invocation
 		// and aborts in case validation fail
@@ -418,7 +418,7 @@ function nwxforms(global) {
 				if (!element.name || element.type == 'hidden' || element.disabled || element.readOnly) {
 					continue;
 				}
-				// use attributes collection instead of getAttribute to avoid
+				// test attributes collection instead of getAttribute to avoid
 				// false positives on Opera 7.50, IE6 and other older browsers
 				// only perform validation if the control value is not empty (@mathias, @miketaylr)
 				if (element.value !== '' && element.getAttribute('placeholder') !== element.value) {
@@ -458,153 +458,147 @@ function nwxforms(global) {
 		for (i in elements) {
 			for (j = 0; elements[i].length > j; ++j) {
 				element = elements[i][j];
-				switch (element.nodeName.toLowerCase()) {
-					case 'form':
+				name = element.nodeName.toLowerCase();
+
+				if (name == 'form') {
+					if (event === true || event.type != 'submit') {
+						element[method](prefix + 'reset', reset, false);
+						element[method](prefix + 'submit', toggle, false);
+					}
+				}
+
+				if (name == 'input') {
+					if (!element.getAttribute('data-regexp')) {
+						switch(element.getAttribute('type')) {
+							case 'color':
+								element.setAttribute('data-regexp', '[-\w#]');
+								break;
+							case 'number':
+								element.setAttribute('data-regexp', '[-+.0-9e]');
+								break;
+							case 'week':
+								element.setAttribute('data-regexp', '[-.\\/ 0-9W]');
+								break;
+							case 'date':
+							case 'time':
+							case 'month':
+							case 'datetime':
+							case 'datetime-local':
+								element.setAttribute('data-regexp', '[-.\\/ 0-9]');
+								break;
+							default:
+								break;
+						}
+					}
+
+					if (!element.getAttribute('pattern')) {
+						if ((type = element.getAttribute('type')) && TYPES_RE[type]) {
+							addClass(element, type);
+							element.setAttribute('pattern', '^(?:' + TYPES_RE[type] + ')$');
+						}
+					}
+				}
+
+				if (name == 'input' || name == 'textarea') {
+					// required attribute
+					if (requireHelper(element, 'required') && event === true) {
+						addClass(element, 'required');
+					}
+
+					// placeholder attribute
+					if (requireHelper(element, 'placeholder')) {
 
 						if (event === true || event.type != 'submit') {
-							element[method](prefix + 'reset', reset, false);
-							element[method](prefix + 'submit', toggle, false);
-						}
 
-						break;
-
-					case 'input':
-
-						if (!element.getAttribute('data-regexp')) {
-							switch(element.getAttribute('type')) {
-								case 'color':
-									element.setAttribute('data-regexp', '[-\w#]');
-									break;
-								case 'number':
-									element.setAttribute('data-regexp', '[-+.0-9e]');
-									break;
-								case 'date':
-								case 'time':
-								case 'week':
-								case 'month':
-								case 'datetime':
-								case 'datetime-local':
-									element.setAttribute('data-regexp', '[-.\\/ 0-9]');
-									break;
-								default:
-									break;
-							}
-						}
-
-						if (!element.getAttribute('pattern')) {
-							if ((type = element.getAttribute('type')) && TYPES_RE[type]) {
-								addClass(element, type);
-								element.setAttribute('pattern', '^(?:' + TYPES_RE[type] + ')$');
-							}
-						}
-
-					case 'textarea':
-
-						// required attribute
-						if (requireHelper(element, 'required') && event === true) {
-							addClass(element, 'required');
-						}
-
-						// placeholder attribute
-						if (requireHelper(element, 'placeholder')) {
-
-							if (event === true || event.type != 'submit') {
-
-								replace = false;
-								if (!supportAttribute(element, 'placeholder')) {
-									if (element.type == 'password') {
-										element[method](prefix + blur, passwordBlur, false);
-										element[method](prefix + focus, passwordFocus, false);
-										switchType(element);
-										replace = true;
-									} else {
-										if (element.value === '') {
-											element.value = element.getAttribute('placeholder');
-										}
-										replace = false;
+							replace = false;
+							if (!supportAttribute(element, 'placeholder')) {
+								if (element.type == 'password') {
+									element[method](prefix + blur, passwordBlur, false);
+									element[method](prefix + focus, passwordFocus, false);
+									switchType(element);
+									replace = true;
+								} else {
+									if (element.value === '') {
+										element.value = element.getAttribute('placeholder');
 									}
+									replace = false;
 								}
-								if (replace === false) {
-									element[method](prefix + blur, blurHandler, false);
-									element[method](prefix + focus, focusHandler, false);
-									if (element.value == element.getAttribute('placeholder')) {
-										addClass(element, 'placeholder');
-									}
-								}
-
 							}
-
-							if (event === true) {
-								// needed for bfcache support, VERIFY !
-								element.setAttribute('autocomplete', 'off');
-							} else {
-								// needed for bfcache support, VERIFY !
-								element.setAttribute('autocomplete', 'on');
-								// clear value before submit if it contains the placeholder
+							if (replace === false) {
+								element[method](prefix + blur, blurHandler, false);
+								element[method](prefix + focus, focusHandler, false);
 								if (element.value == element.getAttribute('placeholder')) {
-									element.value = '';
+									addClass(element, 'placeholder');
 								}
 							}
 
 						}
-
-						// autofocus attribute
-						// code need to take over Opera own "autofocus"
-						// as a temporary fix due to different behavior
-						if (requireHelper(element, 'autofocus') ||
-							element.attributes['autofocus']) {
-							autofocus = element;
-						}
-
-						// maxlength attribute
-						if (requireHelper(element, 'maxlength')) {
-							element[method](prefix + input, maxlengthHandler, false);
-						}
-
-						// pattern attribute
-						if (requireHelper(element, 'pattern')) {
-							element[method](prefix + input, patternHandler, false);
-						}
-
-						// data-regexp attribute (as seen in ExtJS)
-						// limit the range of keys available in this field
-						// non standard attribue but I both need & like this
-						if (requireHelper(element, 'data-regexp')) {
-							element[method](prefix + 'keypress', regexpHandler, false);
-						}
-
-						break;
-
-					case 'select':
-
-						element[method](prefix + blur, changeHandler, false);
-						element[method](prefix + focus, changeHandler, false);
-						element[method](prefix + 'change', changeHandler, false);
 
 						if (event === true) {
-							k = 0;
-							while (element.options[k]) {
-								node = element.options[k].attributes['value'];
-								if (node && node.value === '') {
-									addClass(element.options[k], 'placeholder');
-								}
-								k++;
-							}
-							if (element.value === '') {
-								addClass(element, 'placeholder');
-							}
-							if (requireHelper(element, 'required')) {
-								addClass(element, 'required');
+							// needed for bfcache support, VERIFY !
+							element.setAttribute('autocomplete', 'off');
+						} else {
+							// needed for bfcache support, VERIFY !
+							element.setAttribute('autocomplete', 'on');
+							// clear value before submit if it contains the placeholder
+							if (element.value == element.getAttribute('placeholder')) {
+								element.value = '';
 							}
 						}
 
-						break;
+					}
 
-					default:
+					// autofocus attribute
+					// code need to take over Opera own "autofocus"
+					// as a temporary fix due to different behavior
+					if (requireHelper(element, 'autofocus') ||
+						element.attributes['autofocus']) {
+						autofocus = element;
+					}
 
-						break;
+					// maxlength attribute
+					if (requireHelper(element, 'maxlength')) {
+						element[method](prefix + input, maxlengthHandler, false);
+					}
+
+					// pattern attribute
+					if (requireHelper(element, 'pattern')) {
+						element[method](prefix + input, patternHandler, false);
+					}
+
+					// data-regexp attribute (as seen in ExtJS)
+					// limit the range of keys available in this field
+					// non standard attribue but I both need & like this
+					if (requireHelper(element, 'data-regexp')) {
+						element[method](prefix + 'keypress', regexpHandler, false);
+					}
 
 				}
+
+				if (name == 'select') {
+
+					element[method](prefix + blur, changeHandler, false);
+					element[method](prefix + focus, changeHandler, false);
+					element[method](prefix + 'change', changeHandler, false);
+
+					if (event === true) {
+						k = 0;
+						while (element.options[k]) {
+							node = element.options[k].attributes['value'];
+							if (node && node.value === '') {
+								addClass(element.options[k], 'placeholder');
+							}
+							k++;
+						}
+						if (element.value === '') {
+							addClass(element, 'placeholder');
+						}
+						if (requireHelper(element, 'required')) {
+							addClass(element, 'required');
+						}
+					}
+				}
+
 			}
 		}
 
