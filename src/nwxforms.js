@@ -130,6 +130,38 @@ function nwxforms(global) {
 	// search RE string
 	searchRE = '[^\\r\\n\\f]{0,}',
 
+	// phone RE string, +int_prefix (area_code) phone_number
+	telRE = '(?:\\+?(?:\\d{1,3}[-. ]?))?(?:\\(?\\d{2,4}\\)?[-. ]?)?\\d{3}[-. ]?\\d{4}',
+
+	TYPES_RE = {
+		// HTML4 standard types
+		// no special handling
+		// 'password': '.*',
+		// 'checkbox': '.*',
+		// 'hidden': '.*',
+		// 'button': '.*',
+		// 'submit': '.*',
+		// 'reset': '.*',
+		// 'image': '.*',
+		// 'radio': '.*',
+		// 'file': '.*',
+		// 'text': '.*',
+		// HTML5 extended types
+		'number': numberRE,
+		'search': searchRE,
+		'color': colorRE,
+		'range': rangeRE,
+		'month': monthRE,
+		'date': dateRE,
+		'time': timeRE,
+		'week': weekRE,
+		'datetime-local': dateRE + ' ' + timeRE,
+		'datetime': dateRE + ' ' + timeRE,
+		'email': mailRE + '@' + hostRE,
+		'url': protoRE + '?' + hostRE,
+		'tel': telRE
+	},
+
 	// check native support for attribute
 	// on specific element types (tagName)
 	// don't recreate elements, cache them
@@ -460,69 +492,9 @@ function nwxforms(global) {
 						}
 
 						if (!element.getAttribute('pattern')) {
-							switch(element.getAttribute('type')) {
-								case 'number':
-									addClass(element, 'number');
-									// add spinner up/down key
-									element.setAttribute('pattern', '^(?:' + numberRE + ')$');
-									break;
-								case 'color':
-									addClass(element, 'color');
-									// add color picker widget
-									element.setAttribute('pattern', '^(?:' + colorRE + ')$');
-									break;
-								case 'range':
-									addClass(element, 'range');
-									// add spinner/slider widget
-									element.setAttribute('pattern', '^(?:' + rangeRE + ')$');
-									break;
-								case 'search':
-									addClass(element, 'search');
-									// add round corners & clear button
-									element.setAttribute('pattern', '^(?:' + searchRE + ')$');
-									break;
-								case 'time':
-									addClass(element, 'time');
-									// add separate time spinner widget
-									element.setAttribute('pattern', '^(?:' + timeRE + ')$');
-									break;
-								case 'date':
-									addClass(element, 'date');
-									// work for this century (numeric only)
-									element.setAttribute('pattern', '^(?:' + dateRE + ')$');
-									break;
-								case 'week':
-									addClass(element, 'week');
-									// add spinner up/down key (numeric only)
-									element.setAttribute('pattern', '^(?:' + weekRE + ')$');
-									break;
-								case 'month':
-									addClass(element, 'month');
-									// add spinner up/down key (numeric only)
-									element.setAttribute('pattern', '^(?:' + monthRE + ')$');
-									break;
-								case 'datetime':
-									addClass(element, 'datetime');
-									// work for this century (numeric only)
-									element.setAttribute('pattern', '^(?:' + dateRE + ' ' + timeRE + ')$');
-									break;
-								case 'datetime-local':
-									addClass(element, 'datetime-local');
-									// work for this century (numeric only)
-									element.setAttribute('pattern', '^(?:' + dateRE + ' ' + timeRE + ')$');
-									break;
-								case 'email':
-									addClass(element, 'email');
-									// RFC2822 email address validation
-									element.setAttribute('pattern', '^(?:' + mailRE + '@' + hostRE + ')$');
-									break;
-								case 'url':
-									addClass(element, 'url');
-									// URL validation (protocol is optional)
-									element.setAttribute('pattern', '^(?:' + protoRE + '?' + hostRE + ')$');
-									break;
-								default:
-									break;
+							if ((type = element.getAttribute('type')) && TYPES_RE[type]) {
+								addClass(element, type);
+								element.setAttribute('pattern', '^(?:' + TYPES_RE[type] + ')$');
 							}
 						}
 
