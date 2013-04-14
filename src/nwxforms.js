@@ -78,16 +78,12 @@ function nwxforms(global) {
 	// handled protocols RE string
 	protoRE = '(?:(?:ftp|http|https)://)',
 
-	// host.domain.tld RE string
-	hostRE =
-		'(?:[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]\\.)+' +
-		'[a-zA-Z]{2,6}',
+	// host.domain.tld RE string, for stricter checking this
+	// could be used: https://gist.github.com/dperini/729294
+	hostRE = '(?:[a-zA-Z0-9][-a-zA-Z0-9]{0,61}[a-zA-Z0-9]\\.)+[a-zA-Z]{2,6}',
 
-	// mail address RE string
-	// RFC2822 no double quotes
-	mailRE =
-		'(?:[-+∼=!#$%&\x27*/?\\^`{|}\\w]+)' +
-		'(?:\\.[-+∼=!#$%&\x27*/?\\^`{|}\\w]+)*',
+	// mail address RE string, RFC2822/RFC5322 no double quotes, no UTF8 (RFC5336)
+	mailRE = '(?:[\\w!#$%&\x27*+/=?^`{|}~-]+)(?:\\.[\\w!#$%&\x27*+/=?^`{|}~-]+)*',
 
 	// date RE string
 	dateRE =
