@@ -1,6 +1,6 @@
 /*!
 
-Copyright (c) 2010-2012 Diego Perini (http://www.iport.it)
+Copyright (c) 2010-2013 Diego Perini (http://www.iport.it)
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
