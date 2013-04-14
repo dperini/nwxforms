@@ -85,44 +85,44 @@ function nwxforms(global) {
 	// mail address RE string, RFC2822/RFC5322 no double quotes, no UTF8 (RFC5336)
 	mailRE = '(?:[\\w!#$%&\x27*+/=?^`{|}~-]+)(?:\\.[\\w!#$%&\x27*+/=?^`{|}~-]+)*',
 
-        // date RE string, yyyy-mm-dd (US) dd-mm-yyyy (EU/IT)
-        // multiple separators: "-", ".", "/", " " or none
-        dateRE =
-                // [yy]yy-mm-dd
-                '(?:\\d{2}|\\d{4})[-.\\/ ]\\d{1,2}[-.\\/ ]\\d{1,2}|' +
-                // dd-mm-[yy]yy
-                '\\d{1,2}[-.\\/ ]\\d{1,2}[-.\\/ ](?:\\d{2}|\\d{4})|' +
-                // [yy]yymmdd
-                '(?:\\d{2}|\\d{4})\\d{2}\\d{2}|' +
-                // ddmm[yy]yy
-                '\\d{2}\\d{2}(?:\\d{2}|\\d{4})',
+	// date RE string, yyyy-mm-dd (US) dd-mm-yyyy (EU/IT)
+	// multiple separators: "-", ".", "/", " " or none
+	dateRE =
+		// [yy]yy-mm-dd
+		'(?:\\d{2}|\\d{4})[-.\\/ ]\\d{1,2}[-.\\/ ]\\d{1,2}|' +
+		// dd-mm-[yy]yy
+		'\\d{1,2}[-.\\/ ]\\d{1,2}[-.\\/ ](?:\\d{2}|\\d{4})|' +
+		// [yy]yymmdd
+		'(?:\\d{2}|\\d{4})\\d{2}\\d{2}|' +
+		// ddmm[yy]yy
+		'\\d{2}\\d{2}(?:\\d{2}|\\d{4})',
 
-        // month RE string, yyyy-mm (US) mm-yyyy (EU/IT)
-        // multiple separators: "-", ".", "/", " " or none
-        monthRE =
-                // [yy]yy mm
-                '(?:\\d{2}|\\d{4})[-.\\/ ]\\d{1,2}|' +
-                // mm [yy]yy
-                '\\d{1,2}[-.\\/ ](?:\\d{2}|\\d{4})|' +
-                // [yy]yymm
-                '(?:\\d{2}|\\d{4})\\d{2}|' +
-                // mm[yy]yy
-                '\\d{2}(?:\\d{2}|\\d{4})',
+	// month RE string, yyyy-mm (US) mm-yyyy (EU/IT)
+	// multiple separators: "-", ".", "/", " " or none
+	monthRE =
+		// [yy]yy mm
+		'(?:\\d{2}|\\d{4})[-.\\/ ]\\d{1,2}|' +
+		// mm [yy]yy
+		'\\d{1,2}[-.\\/ ](?:\\d{2}|\\d{4})|' +
+		// [yy]yymm
+		'(?:\\d{2}|\\d{4})\\d{2}|' +
+		// mm[yy]yy
+		'\\d{2}(?:\\d{2}|\\d{4})',
 
-        // week RE string, yyyy-Www (US) Www-yyyy (EU/IT)
-        // a "W" marker is used to differentiate from month format
-        // http://www.w3.org/TR/html-markup/input.week.html#form.data.week_xref1
-        weekRE = '\\d{4}-W\\d{2}|W\\d{2}-\\d{4}',
+	// week RE string, yyyy-Www (US) Www-yyyy (EU/IT)
+	// a "W" marker is used to differentiate from month format
+	// http://www.w3.org/TR/html-markup/input.week.html#form.data.week_xref1
+	weekRE = '\\d{4}-W\\d{2}|W\\d{2}-\\d{4}',
 
-        // time RE string, format: hh:mm:ss.ff
-        // RFC3339 partial-time format no TimeZone
-        timeRE = '\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{2})?',
+	// time RE string, format: hh:mm:ss.ff
+	// RFC3339 partial-time format no TimeZone
+	timeRE = '\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{2})?',
 
-        // numeric RE string, format: -.01e2
-        numberRE = '(?:\\+|-)?(?:\\d+)(?:.\\d+)?(?:e-?\\d+)?',
+	// numeric RE string, format: -.01e2
+	numberRE = '(?:\\+|-)?(?:\\d+)(?:.\\d+)?(?:e-?\\d+)?',
 
-        // color RE string, format: #hhh, #hhhhhh, name
-        colorRE = '#[0-9a-fA-F]{3,3}|#[0-9a-fA-F]{6,6}|[a-zA-Z]+-?[a-zA-Z]+',
+	// color RE string, format: #hhh, #hhhhhh, name
+	colorRE = '#[0-9a-fA-F]{3,3}|#[0-9a-fA-F]{6,6}|[a-zA-Z]+-?[a-zA-Z]+',
 
 	// range RE string
 	rangeRE = numberRE,
