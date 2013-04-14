@@ -191,7 +191,7 @@ function nwxforms(global) {
 		var i, j, a = element.attributes, l = a.length, n;
 		for (i = 0; l > i; ++i) {
 			j = a[i].name.toLowerCase();
-			n = element.getAttributeNode(j);
+			n = element.attributes[j];
 			if (n && n.specified && !skipAttr[j]) {
 				if (j == 'class') {
 					clone.setAttribute('className', n.value);
@@ -346,8 +346,8 @@ function nwxforms(global) {
 
 	// check html attribute was specified on element
 	requireHelper = function(element, attribute) {
-		var node = element.getAttributeNode(attribute);
-		return node && node.specified && node.value !== null;
+		var node = element.attributes[attribute];
+		return node && node.value !== null;
 	},
 
 	hasClass = function(element, className) {
@@ -386,11 +386,11 @@ function nwxforms(global) {
 				if (!element.name || element.type == 'hidden' || element.disabled || element.readOnly) {
 					continue;
 				}
-				// test using getAttributeNode instead of getAttribute to avoid
+				// use attributes collection instead of getAttribute to avoid
 				// false positives on Opera 7.50, IE6 and other older browsers
 				// only perform validation if the control value is not empty (@mathias, @miketaylr)
 				if (element.value !== '' && element.getAttribute('placeholder') !== element.value) {
-					if ((node = element.getAttributeNode('pattern')) && (pattern = node.value)) {
+					if ((node = element.attributes['pattern']) && (pattern = node.value)) {
 						try {
 							if (RegExp(pattern).test(element.value) && element.getAttribute('placeholder') != element.value) {
 								continue;
@@ -400,7 +400,7 @@ function nwxforms(global) {
 						break;
 					}
 				}
-				if (element.getAttributeNode('required') && (element.value === '' || element.getAttribute('placeholder') == element.value)) {
+				if (element.attributes['required'] && (element.value === '' || element.getAttribute('placeholder') == element.value)) {
 					if ('selectedIndex' in element && (k = element.selectedIndex) > -1) {
 						// expectation here is for a value or at least index > 0 and valid text
 						if (element.value !== '' || (k > 0 && element.options[k].text !== '')) {
@@ -580,7 +580,7 @@ function nwxforms(global) {
 						// code need to take over Opera own "autofocus"
 						// as a temporary fix due to different behavior
 						if (requireHelper(element, 'autofocus') ||
-							element.getAttributeNode('autofocus') !== null) {
+							element.attributes['autofocus']) {
 							autofocus = element;
 						}
 
@@ -612,8 +612,8 @@ function nwxforms(global) {
 						if (event === true) {
 							k = 0;
 							while (element.options[k]) {
-								node = element.options[k].getAttributeNode('value');
-								if (node && node.specified && node.value === '') {
+								node = element.options[k].attributes['value'];
+								if (node && node.value === '') {
 									addClass(element.options[k], 'placeholder');
 								}
 								k++;
