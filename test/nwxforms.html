@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="author" content="Diego Perini">
 
@@ -158,7 +160,7 @@ code { color: darkred; }
 </head>
 <body>
 
-<h1>Creating cross-browser enhanced forms</h1>
+<h1>Creating cross-browser enhanced HTML5 forms</h1>
 
 <hr>
 
@@ -255,7 +257,7 @@ code { color: darkred; }
 
       <div id="final">
 
-        <form action="" onsubmit="this.action='?'+(new Date).getTime()" method="post">
+        <form action="?" onsubmit="this.action='?'+Date.now()" method="post">
 
           <fieldset>
 
@@ -266,7 +268,7 @@ code { color: darkred; }
             <div><input name="password" id="password" type="password" placeholder="Enter secret code" required="" maxlength="16" title="Your secret code, maximum 16 characters"></div>
 
             <div><label for="email">email <span>required + pattern</span></label></div>
-            <div><input name="email" id="email" type="text" placeholder="name@example.com" required="" pattern="^(?:[-+∼=!#$%&'*/?\^`{|}\w]+)(?:\.[-+∼=!#$%&'*/?\^`{|}\w]+)*@(?:[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]\.)+[a-zA-Z]{2,6}$" title="Your e-mail address (ex: name@example.com)"></div>
+            <div><input name="email" id="email" type="text" placeholder="name@example.com" required="" pattern="^(?:[\w!#$%\x26\x27*+/=?^`{|}~-]+)(?:\.[\w!#$%\x26\x27*+/=?^`{|}~-]+)*@(?:[a-zA-Z0-9][-a-zA-Z0-9]{0,61}[a-zA-Z0-9]\.)+[a-zA-Z]{2,6}$" title="Your e-mail address (ex: name@example.com)"></div>
 
             <div><label for="gender">gender <span>required</span></label></div>
             <div><select name="gender" id="gender" required="" title="Your gender"><option value="">Select one</option><option>Male</option><option>Female</option></select></div>
@@ -275,7 +277,7 @@ code { color: darkred; }
             <div><input name="age" id="age" type="text" placeholder="Enter your age" maxlength="2" required="" data-regexp="[0-9]" title="Your age, only 2 numeric digits 0-9 will be accepted"></div>
 
             <div><label for="url">url <span>required + pattern</span></label></div>
-            <div><input name="url" id="url" type="text" placeholder="http://exampleseed.com" required="" pattern="^(?:https?://)?(?:[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]\.)+[a-zA-Z]{2,6}$" title="Dotted host/domain name possibly preceeded by http:// or https://"></div>
+            <div><input name="url" id="url" type="text" placeholder="http://exampleseed.com" required="" pattern="^(?:https?://)?(?:[a-zA-Z0-9][-a-zA-Z0-9]{0,61}[a-zA-Z0-9]\.)+[a-zA-Z]{2,6}$" title="Dotted host/domain name possibly preceeded by http:// or https://"></div>
 
             <div><label for="comment">comment <span>required + maxlength 32</span></label></div>
             <div><textarea name="comment" id="comment" maxlength="32" title="Send us your comments" placeholder="Enter your comments" required=""></textarea></div>

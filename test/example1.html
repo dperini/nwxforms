@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="author" content="Diego Perini">
 
@@ -33,7 +35,7 @@ values and prevent form submission in case the control value is absent.</p>
 the control values in a default way while it uses the <code>required</code>
 attribute to avoid submitting the form when the control value is empty.</p>
 
-<form action="" onsubmit="this.action='?'+(new Date).getTime()" method="post">
+<form action="?" onsubmit="this.action='?'+Date.now()" method="post">
 
     <div><label for="name">name</label></div>
     <div><input name="name" id="name" type="text" placeholder="Enter your name" autofocus="" required="" title="Your name"> *</div>
