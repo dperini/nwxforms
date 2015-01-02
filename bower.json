@@ -1,0 +1,25 @@
+{
+  "name": "nwxforms",
+  "version": "1.0",
+  "homepage": "https://github.com/dperini/nwxforms",
+  "authors": [
+    "Diego Perini <diego.perini@gmail.com>"
+  ],
+  "description": "HTML5 forms shim for older and newer browsers.",
+  "main": "src/nwxforms.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "xforms",
+    "forms",
+    "html5",
+    "shim"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "*.md",
+    "test"
+  ]
+}
