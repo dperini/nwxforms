@@ -398,6 +398,12 @@ function nwxforms(global) {
 			element.className = element.className.replace(RegExp('(?:^|\\s)' + className + '(\\s|$)'), '$1');
 		}
 		return element;
+	},
+	
+	hasNativeSupport = function(type){
+	    var input = document.createElement("input");
+	    input.setAttribute("type", type);
+	    return input.type == type;
 	};
 
 	(function toggle(event) {
@@ -469,32 +475,39 @@ function nwxforms(global) {
 
 				if (name == 'input') {
 					if (!element.getAttribute('data-regexp')) {
-						switch(element.getAttribute('type')) {
-							case 'color':
-								element.setAttribute('data-regexp', '[-\w#]');
-								break;
-							case 'number':
-								element.setAttribute('data-regexp', '[-+.0-9e]');
-								break;
-							case 'week':
-								element.setAttribute('data-regexp', '[-.\\/ 0-9W]');
-								break;
-							case 'date':
-							case 'time':
-							case 'month':
-							case 'datetime':
-							case 'datetime-local':
-								element.setAttribute('data-regexp', '[-.\\/ 0-9]');
-								break;
-							default:
-								break;
+						
+						if (!hasNativeSupport(element.getAttribute('type'))){
+
+							switch(element.getAttribute('type')) {
+								case 'color':
+									element.setAttribute('data-regexp', '[-\w#]');
+									break;
+								case 'number':
+									element.setAttribute('data-regexp', '[-+.0-9e]');
+									break;
+								case 'week':
+									element.setAttribute('data-regexp', '[-.\\/ 0-9W]');
+									break;
+								case 'date':
+								case 'time':
+								case 'month':
+								case 'datetime':
+								case 'datetime-local':
+									element.setAttribute('data-regexp', '[-.\\/ 0-9]');
+									break;
+								default:
+									break;
+							}
+						
 						}
 					}
 
 					if (!element.getAttribute('pattern')) {
-						if ((type = element.getAttribute('type')) && TYPES_RE[type]) {
-							addClass(element, type);
-							element.setAttribute('pattern', '^(?:' + TYPES_RE[type] + ')$');
+						if (!hasNativeSupport(element.getAttribute('type'))){
+							if ((type = element.getAttribute('type')) && TYPES_RE[type]) {
+								addClass(element, type);
+								element.setAttribute('pattern', '^(?:' + TYPES_RE[type] + ')$');
+							}
 						}
 					}
 				}
