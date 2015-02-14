@@ -206,9 +206,9 @@ function nwxforms(global) {
 	// IE: prevent ESC+ESC (reset)
 	// erasing entered user data
 	reset = function(event) {
-		event[target].value = '';
-		event[target].focus();
-		return stop(event);
+		if (event.keyCode == 27) return stop(event);
+		else setTimeout(function() { toggle(true); }, 25);
+		return true;
 	},
 
 	// prevent event default action
@@ -398,9 +398,9 @@ function nwxforms(global) {
 			element.className = element.className.replace(RegExp('(?:^|\\s)' + className + '(\\s|$)'), '$1');
 		}
 		return element;
-	};
+	},
 
-	(function toggle(event) {
+	toggle = function(event) {
 
 		var i, j, k, autofocus,
 			element, field, invalid,
@@ -619,6 +619,8 @@ function nwxforms(global) {
 
 		return;
 
-	})(true);
+	};
 
+	// init wrappers on form controls
+	toggle(true);
 }
