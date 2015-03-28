@@ -431,6 +431,11 @@ function nwxforms(global) {
 						invalid = true;
 						break;
 					}
+					if (element.type == 'checkbox' && element.attributes['required']) {
+						if (element.checked) continue;
+						invalid = true;
+						break;
+					}
 				}
 				if (element.attributes['required'] && (element.value === '' || element.getAttribute('placeholder') == element.value)) {
 					if ('selectedIndex' in element && (k = element.selectedIndex) > -1) {
@@ -438,7 +443,7 @@ function nwxforms(global) {
 						if (element.value !== '' || (k > 0 && element.options[k].text !== '')) {
 							continue;
 						}
-					}
+					} else if (element.type == 'checkbox' && element.checked) continue;
 					invalid = true;
 					break;
 				}
