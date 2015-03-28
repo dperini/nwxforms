@@ -50,7 +50,7 @@ body {
   border: 1px solid green;
 }
 
-#final input { }
+#final input[type=checkbox] { width: auto; }
 #final select { }
 #final textarea { overflow: auto; }
 
@@ -284,6 +284,9 @@ code { color: darkred; }
 
             <div><label for="interests">interests <span>standard field</span></label></div>
             <div><input name="interests" id="interests" title="Tell us more about your interests"></div>
+
+            <div><label for="agree">agree <span>required</span></label></div>
+            <div><input name="agree" id="agree" type="checkbox" required="" title="Do you agree?"></div>
 
           </fieldset>
 
