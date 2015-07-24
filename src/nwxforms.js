@@ -476,7 +476,7 @@ function nwxforms(global) {
 					if (!element.getAttribute('data-regexp')) {
 						switch(element.getAttribute('type')) {
 							case 'color':
-								element.setAttribute('data-regexp', '[-\w#]');
+								element.setAttribute('data-regexp', '[-\\w#]');
 								break;
 							case 'number':
 								element.setAttribute('data-regexp', '[-+.0-9e]');
