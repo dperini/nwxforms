@@ -2,9 +2,9 @@
 
 
 
-## [Demo 1](http://dl.dropbox.com/u/598365/html5forms/html5forms.html)
+## [Demo 1](http://javascript.nwbox.com/nwxforms/test/html5forms.html)
 
-## [Demo 2](http://dl.dropbox.com/u/598365/html5forms/example1.html)
+## [Demo 2](http://javascript.nwbox.com/nwxforms/test/example1.html)
  
 
 <p class="status">Currently the code aims to support the following new HTML5 input types
